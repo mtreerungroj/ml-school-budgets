@@ -19,6 +19,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import Imputer
 # Import the CountVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
+# Import the hashing vectorizer
+from sklearn.feature_extraction.text import HashingVectorizer
 
 # Import other preprocessing modules
 from sklearn.feature_selection import chi2, SelectKBest
@@ -88,8 +90,10 @@ pl = Pipeline([('union', FeatureUnion(
                 ])),
                 ('text_features', Pipeline([
                     ('selector', get_text_data),
-                    ('vectorizer', CountVectorizer(token_pattern=TOKENS_ALPHANUMERIC,
-                                                   ngram_range=(1, 2))),
+                    ('vectorizer', HashingVectorizer(token_pattern=TOKENS_ALPHANUMERIC,
+                                                     non_negative=True, norm=None, binary=False, ngram_range=(1, 2))),
+                    # ('vectorizer', CountVectorizer(
+                    #     token_pattern=TOKENS_ALPHANUMERIC, ngram_range=(1, 2))),
                     ('dim_red', SelectKBest(chi2, chi_k))
                 ]))
                 ]
