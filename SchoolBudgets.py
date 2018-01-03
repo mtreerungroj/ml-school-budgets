@@ -1,3 +1,6 @@
+import multilabel
+import SparseInteractions
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -26,7 +29,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.ensemble import RandomForestClassifier
 
-import multilabel
 
 NUMERIC_COLUMNS = ['FTE', 'Total']
 # Create the token pattern: TOKENS_ALPHANUMERIC
@@ -92,6 +94,7 @@ pl = Pipeline([('union', FeatureUnion(
                 ]))
                 ]
 )),
+    ('int', SparseInteractions.SparseInteractions(degree=2)),
     ('scale', MaxAbsScaler()),
     ('clf', OneVsRestClassifier(LogisticRegression()))
 ])

@@ -3,4 +3,6 @@ Summary code: building a model to automatically classify items in a school's bud
 
 Download school budgets data [here](https://s3.amazonaws.com/drivendata/data/4/public/da1dd36a-a497-42c7-b3f3-4a225944bdba.zip)
 
-Reference/resource: [course-resources-ml-with-experts-budgets](https://github.com/datacamp/course-resources-ml-with-experts-budgets)
+References/resources: 
+- [datacampe/course-resources-ml-with-experts-budgets](https://github.com/datacamp/course-resources-ml-with-experts-budgets)
+- [drivendataorg/box-plots-sklearn](https://github.com/drivendataorg/box-plots-sklearn)
