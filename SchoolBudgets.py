@@ -17,6 +17,10 @@ from sklearn.preprocessing import Imputer
 # Import the CountVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 
+# Import other preprocessing modules
+from sklearn.feature_selection import chi2, SelectKBest
+# Import functional utilities
+from sklearn.preprocessing import FunctionTransformer, MaxAbsScaler
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
@@ -70,6 +74,9 @@ get_text_data = FunctionTransformer(combine_text_columns, validate=False)
 get_numeric_data = FunctionTransformer(
     lambda x: x[NUMERIC_COLUMNS], validate=False)
 
+# Select 300 best features
+chi_k = 300
+
 # Complete the pipeline: pl
 pl = Pipeline([('union', FeatureUnion(
     transformer_list=[
@@ -79,10 +86,13 @@ pl = Pipeline([('union', FeatureUnion(
                 ])),
                 ('text_features', Pipeline([
                     ('selector', get_text_data),
-                    ('vectorizer', CountVectorizer())
+                    ('vectorizer', CountVectorizer(token_pattern=TOKENS_ALPHANUMERIC,
+                                                   ngram_range=(1, 2))),
+                    ('dim_red', SelectKBest(chi2, chi_k))
                 ]))
                 ]
 )),
+    ('scale', MaxAbsScaler()),
     ('clf', OneVsRestClassifier(LogisticRegression()))
 ])
 
